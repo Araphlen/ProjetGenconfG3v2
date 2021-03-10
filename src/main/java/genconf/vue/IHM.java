@@ -209,7 +209,8 @@ public class IHM  {
             token = in.next();
             result = parseFunction.apply(token);
         }
-
+//le return : si result!= null (ie: si le prog a bien lu qq chose) la fonctoin return la valeur lu dans uns string ?
+//            sinon la fonction crée une erreur.
         return result.orElseThrow(() -> new Error("Erreur de lecture (" + IHM.MAX_ESSAIS + " essais infructueux)."));
     }
 
