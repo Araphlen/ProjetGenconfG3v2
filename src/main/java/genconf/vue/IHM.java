@@ -5,11 +5,7 @@ import genconf.controleur.Controleur;
 import genconf.modele.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -428,5 +424,23 @@ public class IHM  {
         return IHM.lireDate(Optional.of(apres));
     }
 
-   
+
+
+    /**
+    *
+    * Partie d'ajout des méthodes experimentales de IHM
+    *
+     */
+    public void afficheUtilisateurs()
+    {
+        Map<String, Utilisateur> utilisateurs = controleur.getMapUtilisateurs();
+        Set listKeys = utilisateurs.keySet();
+
+        System.out.println("** Affichage de la liste des utilisateurs **");
+        for (Object key : listKeys) {
+            Utilisateur utilisateur = utilisateurs.get(key);
+            System.out.println("Nom : " + utilisateur.getNom() + ", prénom : " + utilisateur.getPrenom() + ", email : " + utilisateur.getEmail());
+        }
+        System.out.println("** Fin de l'affichage **\n");
+    }
 }
