@@ -8,8 +8,6 @@ import java.io.IOException;
 
 public class Main {
 
-    private String quiestBeno = "Un giga bg";
-
     public static final int EXIT_ERR_LOAD = 2;
     public static final int EXIT_ERR_SAVE = 3;
 
