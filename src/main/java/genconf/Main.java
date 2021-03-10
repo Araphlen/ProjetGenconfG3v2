@@ -18,7 +18,7 @@ public class Main {
             genconf = Persisteur.lireEtat();
         }
         catch (ClassNotFoundException | IOException ignored) {
-            System.err.println("Erreur irrécupérable pendant le chargement de l'état : fin d'exécution !");
+            System.err.println("Erreur irrécupérable pendant le chrgement de l'état : fin d'exécution !");
             System.err.flush();
             System.exit(Main.EXIT_ERR_LOAD);
         }
