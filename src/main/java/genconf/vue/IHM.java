@@ -443,4 +443,30 @@ public class IHM  {
         }
         System.out.println("** Fin de l'affichage **\n");
     }
+    
+    public void afficherConferences(){
+        
+        Map<String, Conference> conferences =controleur.getMapConferences();
+        Set listKeys = conferences.keySet();
+        
+        System.out.println("*** Affichage de la liste des conférences : ***");
+        for (Object key : listKeys) {
+            Conference conf=conferences.get(key);
+            System.out.println("* Nom de la conférences : "+conf.getNom()
+                    + "\n* Date de début : "+conf.getDateDebut()
+                    + "\n* Date de fin : "+conf.getDateFin()
+                    +"\n* Dont les admins sont  : "
+            );
+            Collection<Utilisateur> admins=conf.getAdmin();
+            for (Utilisateur admin : admins) {
+                System.out.println("\n" + admin.getNom()
+                         +" "+ admin.getPrenom()
+                        + ", email : " + admin.getEmail()
+                );
+            }
+            System.out.println("===============================================");
+        }
+        System.out.println("** Fin de l'affichage **\n");
+
+    }
 }
