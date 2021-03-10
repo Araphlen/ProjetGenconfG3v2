@@ -1,5 +1,6 @@
 package genconf.controleur;
 
+import genconf.modele.Conference;
 import genconf.modele.GenConf;
 import genconf.modele.Utilisateur;
 import genconf.vue.IHM;
@@ -35,6 +36,9 @@ public class Controleur {
                 break;
             case AFFICHER_UTILISATEUR:
                 this.ihm.afficheUtilisateurs();
+                break;
+            case AFFICHER_CONFERENCES:
+                this.ihm.afficherConferences();
                 break;
             default:
                 assert false : "Commande inconnue.";
@@ -89,10 +93,17 @@ public class Controleur {
      *
      * Partie d'ajout des méthodes experimentales de IHM
      *
+     * @return 
      */
 
     public Map<String, Utilisateur> getMapUtilisateurs()
     {
         return this.genconf.getUtilisateurs();
     }
+    
+    public Map<String,Conference> getMapConferences()
+    {
+        return this.genconf.getConferences();
+    }
+
 }
