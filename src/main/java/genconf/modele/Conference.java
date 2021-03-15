@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 
@@ -15,6 +16,7 @@ public class Conference implements Serializable {
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private final Map<String, Utilisateur> administrateurs;  // association qualifiée par l'email
+    private final Map<String, TypeCommunication> typesCom;  // association par nom typeCom
 
     // Invariant de classe : !dateDebut.isAfter(dateFin)
     //     On utilise la négation ici pour exprimer (dateDebut <= dateFin), ce
@@ -33,6 +35,7 @@ public class Conference implements Serializable {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.administrateurs = new HashMap<>();
+        this.typesCom = new HashMap<>();
     }
 
     public String getNom() {
@@ -66,5 +69,18 @@ public class Conference implements Serializable {
         assert !this.administrateurs.containsKey(admin.getEmail());
         this.administrateurs.put(admin.getEmail(), admin);
         admin.ajouteConferenceAdministree(this);
+    }
+    
+    // methodes typeComm
+    public void addTypeCom(String nom, TypeCommunication typeCom)
+    {
+        typesCom.put(nom, typeCom);
+        
+        typeCom.setConf(this);
+    }
+    
+    public boolean existTypeCom(String nom)
+    {
+        return typesCom.containsKey(nom);
     }
 }

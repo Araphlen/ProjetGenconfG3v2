@@ -469,4 +469,14 @@ public class IHM  {
         System.out.println("** Fin de l'affichage **\n");
 
     }
+    
+    // fonction typeCom
+    public void saisirTypeCom()
+    {
+        Scanner input = new Scanner(System.in);
+        String nom;
+        System.out.println("Saisir un nom de type de communication : ");
+        nom = input.nextLine();
+        controleur.creerTypeCom(nom);
+    }
 }
