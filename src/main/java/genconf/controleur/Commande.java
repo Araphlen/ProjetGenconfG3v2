@@ -15,7 +15,8 @@ public enum Commande {
     CREER_UTILISATEUR(1, "Créer un nouvel utilisateur"),
     CREER_CONFERENCE(2,"Créer une nouvelle conférence"),
     AFFICHER_UTILISATEUR(3, "Afficher la liste des utilisateurs"),
-    AFFICHER_CONFERENCES(4, "Afficher la liste des conférences")
+    AFFICHER_CONFERENCES(4, "Afficher la liste des conférences"),
+    CREER_COMMUNICATION(5,"Creer une nouvelle communication")
     ;
 
     private final int code;
