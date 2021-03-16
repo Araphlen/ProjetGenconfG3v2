@@ -16,7 +16,8 @@ public enum Commande {
     CREER_CONFERENCE(2,"Créer une nouvelle conférence"),
     CREER_TYPECOM(3, "Créer un nouveau type de communication"),
     AFFICHER_UTILISATEUR(4, "Afficher la liste des utilisateurs"),
-    AFFICHER_CONFERENCES(5, "Afficher la liste des conférences")
+    AFFICHER_CONFERENCES(5, "Afficher la liste des conférences"),
+    CREER_COMMUNICATION(6,"Creer une nouvelle communication"),
     ;
 
     private final int code;

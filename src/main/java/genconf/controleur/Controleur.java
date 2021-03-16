@@ -43,6 +43,9 @@ public class Controleur {
             case AFFICHER_CONFERENCES:
                 this.ihm.afficherConferences();
                 break;
+            case CREER_COMMUNICATION:
+                this.ihm.creerCommunication();
+                break;
             default:
                 assert false : "Commande inconnue.";
         }
