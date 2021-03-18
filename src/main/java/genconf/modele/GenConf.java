@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class GenConf implements Serializable {
@@ -40,6 +41,43 @@ public class GenConf implements Serializable {
         Utilisateur admin = this.utilisateurs.get(adminEmail);
         Conference conf = Conference.initialiseConference(this, nom, dateDebut, dateFin, admin);
         this.conferences.put(nom, conf);
+    }
+
+
+    // fonction type de com
+    public void creerTypeCom(String nom, Conference conference)
+    {
+        String choix;
+        Scanner input = new Scanner(System.in);
+        TypeCommunication typeCommunication = new TypeCommunication(nom);
+
+        System.out.println("Voulez-vous un pdf ? (o/n)");
+        choix = input.nextLine();
+        choix = verifChoixInput(choix);
+        if (choix.equals("o")) typeCommunication.setPdf(true);
+
+        System.out.println("Voulez-vous une video ? (o/n)");
+        choix = input.nextLine();
+        choix = verifChoixInput(choix);
+        if (choix.equals("o")) typeCommunication.setVideo(true);
+
+        System.out.println("Voulez-vous un lien de video-conférence ? (o/n)");
+        choix = input.nextLine();
+        choix = verifChoixInput(choix);
+        if (choix.equals("o")) typeCommunication.setLienVideoConf(true);
+
+        conference.addTypeCom(nom, typeCommunication);
+    }
+
+    public String verifChoixInput(String choix)
+    {
+        Scanner input = new Scanner(System.in);
+        while (!choix.equals("o") && !choix.equals("n"))
+        {
+            System.out.println("Choix invalide, ressaisir votre choix :");
+            choix = input.nextLine();
+        }
+        return choix;
     }
 
 }

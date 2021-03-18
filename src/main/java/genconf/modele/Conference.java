@@ -75,8 +75,11 @@ public class Conference implements Serializable {
     public void addTypeCom(String nom, TypeCommunication typeCom)
     {
         typesCom.put(nom, typeCom);
-        
-        typeCom.setConf(this);
+    }
+
+    public Map<String, TypeCommunication> getTypesCom()
+    {
+        return this.typesCom;
     }
     
     public boolean existTypeCom(String nom)

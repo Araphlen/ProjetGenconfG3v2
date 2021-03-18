@@ -3,6 +3,7 @@ package genconf.vue;
 import genconf.controleur.Commande;
 import genconf.controleur.Controleur;
 import genconf.modele.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -36,7 +37,7 @@ public class IHM  {
     /** Classes conteneurs
     
      * Classe conteneur pour les informations saisies à propos d'un
-     * {@link fr.uga.iut2.genconf.modele.Utilisateur}.
+     * {@link /fr.uga.iut2.genconf.modele.Utilisateur}.
      *
      * <ul>
      * <li>Tous les attributs sont `public` par commodité d'accès.</li>
@@ -57,7 +58,7 @@ public class IHM  {
 
     /**
      * Classe conteneur pour les informations saisies pour une nouvelle
-     * {@link fr.uga.iut2.genconf.modele.Conference}.
+     * {@link /fr.uga.iut2.genconf.modele.Conference}.
      *
      * <ul>
      * <li>Tous les attributs sont `public` par commodité d'accès.</li>
@@ -79,15 +80,15 @@ public class IHM  {
         }
     }
     
-    public static class InfosNouvelleCommuniaction{
-        public final int numComm;
-        final String titre;
-        public final InfosUtilisateur correspondant;
-        public InfosNouvelleCommuniaction(final int numComm, final String titre, final InfosUtilisateur correspondant){
-            
-        }
-        
-    }
+//    public static class InfosNouvelleCommuniaction{
+//        public final int numComm;
+//        final String titre;
+//        public final InfosUtilisateur correspondant;
+//        public InfosNouvelleCommuniaction(final int numComm, final String titre, final InfosUtilisateur correspondant){
+//
+//        }
+//
+//    }
 
    
 //-----  Éléments du dialogue  -------------------------------------------------
@@ -133,11 +134,11 @@ public class IHM  {
         return new InfosNouvelleConference(nom, dateDebut, dateFin, admin);
     }
     
-    private InfosNouvelleCommuniaction dialogueSaisirNouvelleCommunication(){
-        
-        return new InfosNouvelleCommuniaction();
-        
-    }
+//    private InfosNouvelleCommuniaction dialogueSaisirNouvelleCommunication(){
+//
+//        return new InfosNouvelleCommuniaction();
+//
+//    }
 
 //-----  Implémentation des méthodes pubiques appelées par le controleur  -------------------------------
 
@@ -475,10 +476,17 @@ public class IHM  {
             );
             Collection<Utilisateur> admins=conf.getAdmin();
             for (Utilisateur admin : admins) {
-                System.out.println("\n" + admin.getNom()
+                System.out.println("\t- " + admin.getNom()
                          +" "+ admin.getPrenom()
                         + ", email : " + admin.getEmail()
                 );
+            }
+            System.out.println("* Dont les type de communications sont : ");
+            Map<String, TypeCommunication> typesCom = conf.getTypesCom();
+            Set<String> nomsTypeCom = typesCom.keySet();
+            for (String nomTypeCom: nomsTypeCom)
+            {
+                System.out.println("\t- " + nomTypeCom);
             }
             System.out.println("===============================================");
         }
@@ -490,10 +498,36 @@ public class IHM  {
     public void saisirTypeCom()
     {
         Scanner input = new Scanner(System.in);
-        String nom;
-        System.out.println("Saisir un nom de type de communication : ");
-        nom = input.nextLine();
-        controleur.creerTypeCom(nom);
+        String nom, nomCom;
+        // Demander de choisir une conference dans lmaquelle ajouter le type de com
+        Map<String, Conference> conferences = controleur.getMapConferences();
+        Set<String> listKeys = conferences.keySet();
+        if (listKeys.size() > 0)
+        {
+            System.out.println("*** Liste des conférences ***");
+            for (String key: listKeys)
+            {
+                System.out.println("\t- " + key);
+            }
+            System.out.println("Saisir le nom de la conférence dans laquelle ajouter le type de communication :");
+            nomCom = input.nextLine();
+
+            while (!conferences.containsKey(nomCom))
+            {
+                System.out.println("Nom de conférence incorrect, saisir un nom de conférence :");
+                nomCom = input.nextLine();
+            }
+
+            // ajouter un type de com relié à la com choisit
+            System.out.println("\nSaisir un nom de type de communication : ");
+            nom = input.nextLine();
+            controleur.creerTypeCom(nom, conferences.get(nomCom));
+        }
+        else
+        {
+            System.out.println("Il n'y a pas de conférence dans laquelle ajouter un type de conférence.");
+        }
+
     }
     
     

@@ -113,9 +113,9 @@ public class Controleur {
     }
     
     // fonction typeCom
-    public void creerTypeCom(String nom)
+    public void creerTypeCom(String nom, Conference conference)
     {
-        // genconf.creerTypeCom(nom);  il faut choisir une conference dans laquelle placer ce typeCom
+        genconf.creerTypeCom(nom, conference);
     }
 
 }

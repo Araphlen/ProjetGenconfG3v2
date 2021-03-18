@@ -5,35 +5,58 @@
  */
 package genconf.modele;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  *
  * @author gaudetb
  */
-public class TypeCommunication
+public class TypeCommunication implements Serializable
 {
     private String nom;
     private boolean pdf, video, lienVideoConf;
-    private Conference conference;
-    
-    private HashSet<Conference> conferences;
     
     // constructeur
-    public TypeCommunication(String nom, Conference conference)
+    public TypeCommunication(String nom)
     {
         this.nom = nom;
         this.pdf = false;
         this.video = false;
         this.lienVideoConf = false;
-        this.conference = conference;
-        this.conference.addTypeCom(nom, this);
    }
-    
-    // setter
-    public void setConf(Conference conference)
-    {
-        this.conferences.add(conference);
+
+   // getters and setters
+
+    public String getNom() {
+        return nom;
     }
-    
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public boolean isPdf() {
+        return pdf;
+    }
+
+    public void setPdf(boolean pdf) {
+        this.pdf = pdf;
+    }
+
+    public boolean isVideo() {
+        return video;
+    }
+
+    public void setVideo(boolean video) {
+        this.video = video;
+    }
+
+    public boolean isLienVideoConf() {
+        return lienVideoConf;
+    }
+
+    public void setLienVideoConf(boolean lienVideoConf) {
+        this.lienVideoConf = lienVideoConf;
+    }
 }
