@@ -34,11 +34,17 @@ public class Controleur {
             case CREER_CONFERENCE:
                 this.ihm.saisirNouvelleConference(this.genconf.getConferences().keySet());
                 break;
+            case CREER_TYPECOM:
+                this.ihm.saisirTypeCom();
+                break;
             case AFFICHER_UTILISATEUR:
                 this.ihm.afficheUtilisateurs();
                 break;
             case AFFICHER_CONFERENCES:
                 this.ihm.afficherConferences();
+                break;
+            case CREER_COMMUNICATION:
+                this.ihm.creerCommunication();
                 break;
             default:
                 assert false : "Commande inconnue.";
@@ -104,6 +110,12 @@ public class Controleur {
     public Map<String,Conference> getMapConferences()
     {
         return this.genconf.getConferences();
+    }
+    
+    // fonction typeCom
+    public void creerTypeCom(String nom)
+    {
+        // genconf.creerTypeCom(nom);  il faut choisir une conference dans laquelle placer ce typeCom
     }
 
 }

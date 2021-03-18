@@ -78,6 +78,16 @@ public class IHM  {
             this.admin = admin;
         }
     }
+    
+    public static class InfosNouvelleCommuniaction{
+        public final int numComm;
+        final String titre;
+        public final InfosUtilisateur correspondant;
+        public InfosNouvelleCommuniaction(final int numComm, final String titre, final InfosUtilisateur correspondant){
+            
+        }
+        
+    }
 
    
 //-----  Éléments du dialogue  -------------------------------------------------
@@ -121,6 +131,12 @@ public class IHM  {
         admin = this.dialogueSaisirUtilisateur();
 
         return new InfosNouvelleConference(nom, dateDebut, dateFin, admin);
+    }
+    
+    private InfosNouvelleCommuniaction dialogueSaisirNouvelleCommunication(){
+        
+        return new InfosNouvelleCommuniaction();
+        
     }
 
 //-----  Implémentation des méthodes pubiques appelées par le controleur  -------------------------------
@@ -469,4 +485,23 @@ public class IHM  {
         System.out.println("** Fin de l'affichage **\n");
 
     }
+    
+    // fonction typeCom
+    public void saisirTypeCom()
+    {
+        Scanner input = new Scanner(System.in);
+        String nom;
+        System.out.println("Saisir un nom de type de communication : ");
+        nom = input.nextLine();
+        controleur.creerTypeCom(nom);
+    }
+    
+    
+        public void creerCommunication() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+        
+        
+        
+        
 }
