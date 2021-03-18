@@ -498,7 +498,7 @@ public class IHM  {
     public void saisirTypeCom()
     {
         Scanner input = new Scanner(System.in);
-        String nom, nomCom;
+        String nom, nomConf;
         // Demander de choisir une conference dans lmaquelle ajouter le type de com
         Map<String, Conference> conferences = controleur.getMapConferences();
         Set<String> listKeys = conferences.keySet();
@@ -510,18 +510,18 @@ public class IHM  {
                 System.out.println("\t- " + key);
             }
             System.out.println("Saisir le nom de la conférence dans laquelle ajouter le type de communication :");
-            nomCom = input.nextLine();
+            nomConf = input.nextLine();
 
-            while (!conferences.containsKey(nomCom))
+            while (!conferences.containsKey(nomConf))
             {
                 System.out.println("Nom de conférence incorrect, saisir un nom de conférence :");
-                nomCom = input.nextLine();
+                nomConf = input.nextLine();
             }
 
             // ajouter un type de com relié à la com choisit
             System.out.println("\nSaisir un nom de type de communication : ");
             nom = input.nextLine();
-            controleur.creerTypeCom(nom, conferences.get(nomCom));
+            controleur.creerTypeCom(nom, conferences.get(nomConf));
         }
         else
         {
