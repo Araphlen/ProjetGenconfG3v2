@@ -17,6 +17,8 @@ public class Conference implements Serializable {
     private LocalDate dateFin;
     private final Map<String, Utilisateur> administrateurs;  // association qualifiée par l'email
     private final Map<String, TypeCommunication> typesCom;  // association par nom typeCom
+    private final Map<String, Track> tracks;
+    private final Map<String, Session> sessions;
 
     // Invariant de classe : !dateDebut.isAfter(dateFin)
     //     On utilise la négation ici pour exprimer (dateDebut <= dateFin), ce
@@ -36,6 +38,8 @@ public class Conference implements Serializable {
         this.dateFin = dateFin;
         this.administrateurs = new HashMap<>();
         this.typesCom = new HashMap<>();
+        this.tracks = new HashMap<>();
+        this.sessions = new HashMap<>();
     }
 
     public String getNom() {
@@ -85,5 +89,33 @@ public class Conference implements Serializable {
     public boolean existTypeCom(String nom)
     {
         return typesCom.containsKey(nom);
+    }
+
+
+    // methodes track
+    public void addTrack(Track track)
+    {
+        tracks.put(track.getLibelle(), track);
+    }
+
+    public boolean existTrack(String libelle)
+    {
+        return tracks.containsKey(libelle);
+    }
+
+    public Map<String, Track> getTracks()
+    {
+        return this.tracks;
+    }
+
+    // fonction session
+    public void addSession(Session session)
+    {
+        this.sessions.put(session.getNom(), session);
+    }
+
+    public Map<String, Session> getSessions()
+    {
+        return this.sessions;
     }
 }

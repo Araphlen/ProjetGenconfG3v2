@@ -18,6 +18,9 @@ public enum Commande {
     AFFICHER_UTILISATEUR(4, "Afficher la liste des utilisateurs"),
     AFFICHER_CONFERENCES(5, "Afficher la liste des conférences"),
     CREER_COMMUNICATION(6,"Creer une nouvelle communication"),
+    CREER_TRACK(7, "Créer un nouveau track relié à une conférence"),
+    CREER_SESSION(8, "Créer une nouvelle session relié à une conférence"),
+    LIER_SESSION_A_TRACK(9, "Lier une session à une track"),
     ;
 
     private final int code;

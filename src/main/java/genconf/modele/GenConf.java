@@ -43,41 +43,4 @@ public class GenConf implements Serializable {
         this.conferences.put(nom, conf);
     }
 
-
-    // fonction type de com
-    public void creerTypeCom(String nom, Conference conference)
-    {
-        String choix;
-        Scanner input = new Scanner(System.in);
-        TypeCommunication typeCommunication = new TypeCommunication(nom);
-
-        System.out.println("Voulez-vous un pdf ? (o/n)");
-        choix = input.nextLine();
-        choix = verifChoixInput(choix);
-        if (choix.equals("o")) typeCommunication.setPdf(true);
-
-        System.out.println("Voulez-vous une video ? (o/n)");
-        choix = input.nextLine();
-        choix = verifChoixInput(choix);
-        if (choix.equals("o")) typeCommunication.setVideo(true);
-
-        System.out.println("Voulez-vous un lien de video-conférence ? (o/n)");
-        choix = input.nextLine();
-        choix = verifChoixInput(choix);
-        if (choix.equals("o")) typeCommunication.setLienVideoConf(true);
-
-        conference.addTypeCom(nom, typeCommunication);
-    }
-
-    public String verifChoixInput(String choix)
-    {
-        Scanner input = new Scanner(System.in);
-        while (!choix.equals("o") && !choix.equals("n"))
-        {
-            System.out.println("Choix invalide, ressaisir votre choix :");
-            choix = input.nextLine();
-        }
-        return choix;
-    }
-
 }

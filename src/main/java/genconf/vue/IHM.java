@@ -481,6 +481,27 @@ public class IHM  {
                         + ", email : " + admin.getEmail()
                 );
             }
+            // afficher sessions
+            System.out.println("* Dont les sessions sont :");
+            Map<String, Session> sessions = conf.getSessions();
+            Set<String> nomsSession = sessions.keySet();
+            for (String nomSession: nomsSession)
+            {
+                HashSet<Track> sessiontracks = sessions.get(nomSession).getTracks();
+                if (sessiontracks.size() > 0)
+                {
+                    System.out.println("\t- " + nomSession + " -> Track(s) :");
+                    for (Track track: sessiontracks)
+                    {
+                        System.out.println("\t\t\t-" + track.getLibelle());
+                    }
+                }
+                else
+                {
+                    System.out.println("\t- " + nomSession);
+                }
+            }
+            // affichage typesCom
             System.out.println("* Dont les type de communications sont : ");
             Map<String, TypeCommunication> typesCom = conf.getTypesCom();
             Set<String> nomsTypeCom = typesCom.keySet();
@@ -488,40 +509,61 @@ public class IHM  {
             {
                 System.out.println("\t- " + nomTypeCom);
             }
+            // affichage tracks
+            System.out.println("* Dont les tracks sont :");
+            Map<String, Track> tracks = conf.getTracks();
+            Set<String> libelles = tracks.keySet();
+            for (String libelle: libelles)
+            {
+                System.out.println("\t- Libellé : " + libelle + ", couleur : " + tracks.get(libelle).getCouleur());
+            }
             System.out.println("===============================================");
         }
         System.out.println("** Fin de l'affichage **\n");
 
+    }
+
+    // fonction utiles
+    public Conference choixConf()
+    {
+        Scanner input = new Scanner(System.in);
+        String nomConf;
+
+        // Demander de choisir une conference dans lmaquelle ajouter le type de com
+        Map<String, Conference> conferences = controleur.getMapConferences();
+        Set<String> listKeys = conferences.keySet();
+        if (listKeys.size() > 0) {
+            System.out.println("*** Liste des conférences ***");
+            for (String key : listKeys) {
+                System.out.println("\t- " + key);
+            }
+            System.out.println("Saisir le nom de la conférence :");
+            nomConf = input.nextLine();
+
+            while (!conferences.containsKey(nomConf)) {
+                System.out.println("Nom de conférence incorrect, saisir un nom de conférence :");
+                nomConf = input.nextLine();
+            }
+
+            return conferences.get(nomConf);
+        }
+
+        return null;
     }
     
     // fonction typeCom
     public void saisirTypeCom()
     {
         Scanner input = new Scanner(System.in);
-        String nom, nomConf;
-        // Demander de choisir une conference dans lmaquelle ajouter le type de com
-        Map<String, Conference> conferences = controleur.getMapConferences();
-        Set<String> listKeys = conferences.keySet();
-        if (listKeys.size() > 0)
+        String nom;
+        Conference conference = choixConf();
+
+        if (conference != null)
         {
-            System.out.println("*** Liste des conférences ***");
-            for (String key: listKeys)
-            {
-                System.out.println("\t- " + key);
-            }
-            System.out.println("Saisir le nom de la conférence dans laquelle ajouter le type de communication :");
-            nomConf = input.nextLine();
-
-            while (!conferences.containsKey(nomConf))
-            {
-                System.out.println("Nom de conférence incorrect, saisir un nom de conférence :");
-                nomConf = input.nextLine();
-            }
-
-            // ajouter un type de com relié à la com choisit
+            // ajouter un type de com relié à la conf choisit
             System.out.println("\nSaisir un nom de type de communication : ");
             nom = input.nextLine();
-            controleur.creerTypeCom(nom, conferences.get(nomConf));
+            controleur.creerTypeCom(nom, conference);
         }
         else
         {
@@ -529,9 +571,157 @@ public class IHM  {
         }
 
     }
+
+    // fonction cree track
+    public void saisirTrack()
+    {
+        Scanner input = new Scanner(System.in);
+        String libelle, couleur;
+        Conference conference = choixConf();
+
+        if (conference != null)
+        {
+            // ajouter un track relié a la conf choisit
+            System.out.println("\nSaisir un libellé de track :");
+            libelle = input.nextLine();
+            System.out.println("Saisir une couleur pour le track :");
+            couleur = input.nextLine();
+
+            controleur.creerTrack(libelle, couleur, conference);
+        }
+        else
+        {
+            System.out.println("Il n'y a pas de conférence dans laquelle ajouter un track.");
+        }
+    }
+
+    // fonction session
+    public void saisirSession()
+    {
+        Scanner input = new Scanner(System.in);
+        String choixNomSession, salle;
+        LocalDate jour;
+        int heureDebut, heureFin;
+        Conference conference = choixConf();
+        // affichage des sessions
+        Map<String,Session> sessions = conference.getSessions();
+        Set<String> nomsSession = sessions.keySet();
+        System.out.println("*** Liste des sessions ***");
+        for (String nomSession: nomsSession)
+        {
+            System.out.println("\t- " + nomSession);
+        }
+        System.out.println("*** Fin liste des sessions ***");
+        System.out.println("\nSaisir un nom de session unique :");
+        choixNomSession = input.nextLine();
+        while (sessions.containsKey(choixNomSession))
+        {
+            System.out.println("Nom de session déjà existant, saisir un nom de session :");
+            choixNomSession = input.nextLine();
+        }
+
+        // saisit des differents parametres d'une session
+        IHM.afficher("Saisir une date : ");
+        jour = IHM.lireDate();
+        while (jour.isAfter(conference.getDateFin()) || jour.isBefore(conference.getDateDebut()))
+        {
+            System.out.println("Le jour doit être compris entre " + conference.getDateDebut() + " et " + conference.getDateFin());
+            jour = IHM.lireDate();
+        }
+        System.out.println("Saisir une heure de début :");
+        heureDebut = saisirHeure();
+        System.out.println("Saisir une heure de fin");
+        heureFin = saisirHeure();
+        while (heureFin < heureDebut)
+        {
+            System.out.println("L'heure de fin ne peut pas être inférieur à l'heure de début.\nSasir une heure de fin correcte :");
+            heureFin = saisirHeure();
+        }
+        System.out.println("Saisir une salle :");
+        salle = input.nextLine();
+
+        controleur.creerSession(choixNomSession, jour, heureDebut, heureFin, salle, conference);
+    }
+
+    public int saisirHeure()
+    {
+        Scanner input = new Scanner(System.in);
+        int heure;
+        heure = input.nextInt();
+        while (heure > 23 || heure < 0)
+        {
+            System.out.println("Heure incorrect, une heure doit être comprise entre 0 et 23. Saisir une heure :");
+            heure = input.nextInt();
+        }
+        return heure;
+    }
+
+    // lier session a track
+    public void lierSessionATrack()
+    {
+        // choix de la conference
+        Conference conference = choixConf();
+        if (conference != null)
+        {
+            // choix de la session
+            Scanner input = new Scanner(System.in);
+            String choixSession;
+            Map<String,Session> sessions = conference.getSessions();
+            Set<String> nomsSession = sessions.keySet();
+            if (nomsSession.size() > 0)
+            {
+                System.out.println("*** Liste des sessions ***");
+                for (String nomSession: nomsSession)
+                {
+                    System.out.println("\t- " + nomSession);
+                }
+                System.out.println("Choisir une session :");
+                choixSession = input.nextLine();
+                while (!sessions.containsKey(choixSession))
+                {
+                    System.out.println("Nom de session incorrect, choisir un nom de session existant :");
+                    choixSession = input.nextLine();
+                }
+
+                // choix du track à lier
+                String choixTrack;
+                Map<String,Track> tracks = conference.getTracks();
+                Set<String> nomsTrack = tracks.keySet();
+                if (nomsTrack.size() > 0)
+                {
+                    System.out.println("*** Liste des tracks ***");
+                    for (String nomTrack: nomsTrack)
+                    {
+                        System.out.println("\t- " + nomTrack);
+                    }
+                    System.out.println("Choisir un track :");
+                    choixTrack = input.nextLine();
+                    while (!tracks.containsKey(choixTrack))
+                    {
+                        System.out.println("Track incorrect, choisir un track existant :");
+                        choixTrack = input.nextLine();
+                    }
+
+                    // appeler methode de controlleur
+                    this.controleur.lierSessionATrack(sessions.get(choixSession), tracks.get(choixTrack));
+                }
+                else
+                {
+                    System.out.println("Il n'y a aucun track associé à cette conférence");
+                }
+            }
+            else
+            {
+                System.out.println("Il n'y a aucune session associé à cette conférence");
+            }
+        }
+        else
+        {
+            System.out.println("Il n'y a aucune conférence");
+        }
+    }
     
-    
-        public void creerCommunication() {
+    public void creerCommunication() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
         
@@ -539,3 +729,5 @@ public class IHM  {
         
         
 }
+
+

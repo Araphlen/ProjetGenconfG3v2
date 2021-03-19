@@ -1,11 +1,11 @@
 package genconf.controleur;
 
-import genconf.modele.Conference;
-import genconf.modele.GenConf;
-import genconf.modele.Utilisateur;
+import genconf.modele.*;
 import genconf.vue.IHM;
 
+import java.time.LocalDate;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Controleur {
 
@@ -45,6 +45,15 @@ public class Controleur {
                 break;
             case CREER_COMMUNICATION:
                 this.ihm.creerCommunication();
+                break;
+            case CREER_TRACK:
+                this.ihm.saisirTrack();
+                break;
+            case CREER_SESSION:
+                this.ihm.saisirSession();
+                break;
+            case LIER_SESSION_A_TRACK:
+                this.ihm.lierSessionATrack();
                 break;
             default:
                 assert false : "Commande inconnue.";
@@ -115,7 +124,65 @@ public class Controleur {
     // fonction typeCom
     public void creerTypeCom(String nom, Conference conference)
     {
-        genconf.creerTypeCom(nom, conference);
+        String choix;
+        Scanner input = new Scanner(System.in);
+        TypeCommunication typeCommunication = new TypeCommunication(nom);
+
+        System.out.println("Voulez-vous un pdf ? (o/n)");
+        choix = input.nextLine();
+        choix = verifChoixInput(choix);
+        if (choix.equals("o")) typeCommunication.setPdf(true);
+
+        System.out.println("Voulez-vous une video ? (o/n)");
+        choix = input.nextLine();
+        choix = verifChoixInput(choix);
+        if (choix.equals("o")) typeCommunication.setVideo(true);
+
+        System.out.println("Voulez-vous un lien de video-conférence ? (o/n)");
+        choix = input.nextLine();
+        choix = verifChoixInput(choix);
+        if (choix.equals("o")) typeCommunication.setLienVideoConf(true);
+
+        conference.addTypeCom(nom, typeCommunication);
     }
 
+    public String verifChoixInput(String choix)
+    {
+        Scanner input = new Scanner(System.in);
+        while (!choix.equals("o") && !choix.equals("n"))
+        {
+            System.out.println("Choix invalide, ressaisir votre choix :");
+            choix = input.nextLine();
+        }
+        return choix;
+    }
+
+
+    // fonction track
+    public void creerTrack(String libelle, String couleur, Conference conference)
+    {
+        Track track = new Track(libelle, couleur);
+        if (!conference.existTrack(libelle))
+        {
+            conference.addTrack(track);
+            this.ihm.informerUtilisateur("Le track a bien été ajouté", true);
+        }
+        else
+        {
+            this.ihm.informerUtilisateur("Erreur, ce libellé de track existe déjà.", false);
+        }
+    }
+
+    // fonction session
+    public void creerSession(String nomSession, LocalDate jour, int heureDebut, int heureFin, String salle, Conference conference)
+    {
+        Session session = new Session(nomSession, salle, jour, heureDebut, heureFin);
+        conference.addSession(session);
+    }
+
+    // lier session a track
+    public void lierSessionATrack(Session session, Track track)
+    {
+        session.addTrack(track);
+    }
 }
