@@ -44,7 +44,7 @@ public class Controleur {
                 this.ihm.afficherConferences();
                 break;
             case CREER_COMMUNICATION:
-                this.ihm.creerCommunication();
+                this.ihm.saisirCommunication();
                 break;
             case CREER_TRACK:
                 this.ihm.saisirTrack();
@@ -54,6 +54,9 @@ public class Controleur {
                 break;
             case LIER_SESSION_A_TRACK:
                 this.ihm.lierSessionATrack();
+                break;
+            case LIER_COM_A_SESSION:
+                this.ihm.lierComASession();
                 break;
             default:
                 assert false : "Commande inconnue.";
@@ -184,5 +187,18 @@ public class Controleur {
     public void lierSessionATrack(Session session, Track track)
     {
         session.addTrack(track);
+    }
+
+    // fonction communication
+    public void creerCommunication(Integer numCom, String titre, String auteurs, Conference conference)
+    {
+        Communication communication = new Communication(numCom, titre, auteurs);
+        conference.addCom(communication);
+    }
+
+    // lier com a session
+    public void lierComASession(Session session, Communication communication)
+    {
+        session.addCom(communication);
     }
 }

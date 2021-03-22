@@ -21,6 +21,7 @@ public enum Commande {
     CREER_TRACK(7, "Créer un nouveau track relié à une conférence"),
     CREER_SESSION(8, "Créer une nouvelle session relié à une conférence"),
     LIER_SESSION_A_TRACK(9, "Lier une session à une track"),
+    LIER_COM_A_SESSION(10, "Lier une communication à une session")
     ;
 
     private final int code;

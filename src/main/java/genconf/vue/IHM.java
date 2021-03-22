@@ -550,6 +550,38 @@ public class IHM  {
 
         return null;
     }
+
+    public Session choixSession(Conference conference)
+    {
+        // choix de la session
+        Scanner input = new Scanner(System.in);
+        String nomSession;
+
+        Map<String,Session> sessions = conference.getSessions();
+        Set<String> nomsSession = sessions.keySet();
+        if (nomsSession.size() > 0)
+        {
+            System.out.println("*** Liste des sessions ***");
+            for (String session: nomsSession)
+            {
+                System.out.println("\t- " + session);
+            }
+            System.out.println("Choisir une session :");
+            nomSession = input.nextLine();
+            while (!sessions.containsKey(nomSession))
+            {
+                System.out.println("Nom de session incorrect, choisir un nom de session existant :");
+                nomSession = input.nextLine();
+            }
+            return sessions.get(nomSession);
+        }
+        else
+        {
+            System.out.println("Il n'y a aucune session associé à cette conférence");
+            return null;
+        }
+    }
+
     
     // fonction typeCom
     public void saisirTypeCom()
@@ -664,24 +696,9 @@ public class IHM  {
         if (conference != null)
         {
             // choix de la session
-            Scanner input = new Scanner(System.in);
-            String choixSession;
-            Map<String,Session> sessions = conference.getSessions();
-            Set<String> nomsSession = sessions.keySet();
-            if (nomsSession.size() > 0)
+            Session session = choixSession(conference);
+            if (session != null)
             {
-                System.out.println("*** Liste des sessions ***");
-                for (String nomSession: nomsSession)
-                {
-                    System.out.println("\t- " + nomSession);
-                }
-                System.out.println("Choisir une session :");
-                choixSession = input.nextLine();
-                while (!sessions.containsKey(choixSession))
-                {
-                    System.out.println("Nom de session incorrect, choisir un nom de session existant :");
-                    choixSession = input.nextLine();
-                }
 
                 // choix du track à lier
                 String choixTrack;
@@ -689,6 +706,7 @@ public class IHM  {
                 Set<String> nomsTrack = tracks.keySet();
                 if (nomsTrack.size() > 0)
                 {
+                    Scanner input = new Scanner(System.in);
                     System.out.println("*** Liste des tracks ***");
                     for (String nomTrack: nomsTrack)
                     {
@@ -703,16 +721,12 @@ public class IHM  {
                     }
 
                     // appeler methode de controlleur
-                    this.controleur.lierSessionATrack(sessions.get(choixSession), tracks.get(choixTrack));
+                    this.controleur.lierSessionATrack(session, tracks.get(choixTrack));
                 }
                 else
                 {
-                    System.out.println("Il n'y a aucun track associé à cette conférence");
+                    System.out.println("Il n'y a aucune session associée à cette conférence");
                 }
-            }
-            else
-            {
-                System.out.println("Il n'y a aucune session associé à cette conférence");
             }
         }
         else
@@ -720,9 +734,109 @@ public class IHM  {
             System.out.println("Il n'y a aucune conférence");
         }
     }
-    
-    public void creerCommunication() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    // communication
+    public void saisirCommunication()
+    {
+        // choix de la conference
+        Conference conference = choixConf();
+        if (conference != null)
+        {
+            // saisit de la communication
+            Integer choixCom;
+            String titre, auteurs;
+            Map<Integer, Communication> communications = conference.getCommunications();
+            Set<Integer> numsCom = communications.keySet();
+
+            // choix numCom
+            System.out.println("*** Liste des communications ***");
+            for (int numCom: numsCom)
+            {
+                System.out.println("\t- " + numCom + " : " + communications.get(numCom).getTitre());
+            }
+
+            try {
+                Scanner input = new Scanner(System.in);
+
+                System.out.println("Saisir un numéro de communication unique :");
+                choixCom = input.nextInt();
+                while (communications.containsKey(choixCom)) {
+                    System.out.println("Numéro de communication incorrect, choisir un numéro unique :");
+                    choixCom = input.nextInt();
+                }
+
+                // reset l'input apres un nextInt()
+                input.nextLine();
+
+                // choix titre
+                System.out.println("Saisir un titre de communication :");
+                titre = input.nextLine();
+
+                // choix auteurs
+                System.out.println("Saisir les auteurs de la communication [auteur1,auteur2,...] :");
+                auteurs = input.nextLine();
+
+                // appeler methode de controlleur
+                controleur.creerCommunication(choixCom, titre, auteurs, conference);
+
+            } catch (Exception e) {
+                System.out.println("C'est un numéro et non pas une chaine de caractère.");
+            }
+
+        }
+        else
+        {
+            System.out.println("Il n'y a aucune conférence");
+        }
+    }
+
+    public void lierComASession()
+    {
+        // choix de la conference
+        Conference conference = choixConf();
+        if (conference != null)
+        {
+            // choix de la session
+            Session session = choixSession(conference);
+            if (session != null)
+            {
+                // saisit de la communication
+                Integer choixCom;
+                Map<Integer, Communication> communications = conference.getCommunications();
+                Set<Integer> numsCom = communications.keySet();
+                Scanner input = new Scanner(System.in);
+                if (communications.size() > 0)
+                {
+                    try {
+                        System.out.println("*** Liste des communications ***");
+                        for (int numCom: numsCom)
+                        {
+                            System.out.println("\t- " + numCom + " : " + communications.get(numCom).getTitre());
+                        }
+                        System.out.println("Saisir un numéro de communication :");
+                        choixCom = input.nextInt();
+                        while (!communications.containsKey(choixCom))
+                        {
+                            System.out.println("Numéro de communication incorrect, choisir un numéro :");
+                            choixCom = input.nextInt();
+                        }
+
+                        // appeler methode de controlleur
+                        this.controleur.lierComASession(session, communications.get(choixCom));
+                    } catch (Exception e) {
+                        System.out.println("C'est un numéro et non pas une chaine de caractère.");
+                    }
+                }
+                else
+                {
+                    System.out.println("Il n'y a pas de communication");
+                }
+            }
+        }
+        else
+        {
+            System.out.println("Il n'y a aucune conférence");
+        }
     }
         
         

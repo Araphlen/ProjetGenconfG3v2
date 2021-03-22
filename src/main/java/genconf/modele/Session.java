@@ -2,16 +2,15 @@ package genconf.modele;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 public class Session implements Serializable
 {
     private String nom, salle;
     private LocalDate jour;
     private int heureDebut, heureFin;
-    private HashSet<Track> tracks;
+    private final HashSet<Track> tracks;
+    private final HashSet<Communication> communications;
 
     public Session(String nom, String salle, LocalDate jour, int heureDebut, int heureFin)
     {
@@ -21,12 +20,18 @@ public class Session implements Serializable
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
         this.tracks = new HashSet<>();
+        this.communications = new HashSet<>();
     }
 
     // methodes
     public void addTrack(Track track)
     {
         tracks.add(track);
+    }
+
+    public void addCom(Communication communication)
+    {
+        communications.add(communication);
     }
 
     // setters and getters

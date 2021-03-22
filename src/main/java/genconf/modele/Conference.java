@@ -1,5 +1,7 @@
 package genconf.modele;
 
+import genconf.controleur.Commande;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -19,6 +21,7 @@ public class Conference implements Serializable {
     private final Map<String, TypeCommunication> typesCom;  // association par nom typeCom
     private final Map<String, Track> tracks;
     private final Map<String, Session> sessions;
+    private final Map<Integer, Communication> communications;
 
     // Invariant de classe : !dateDebut.isAfter(dateFin)
     //     On utilise la négation ici pour exprimer (dateDebut <= dateFin), ce
@@ -40,6 +43,7 @@ public class Conference implements Serializable {
         this.typesCom = new HashMap<>();
         this.tracks = new HashMap<>();
         this.sessions = new HashMap<>();
+        this.communications = new HashMap<>();
     }
 
     public String getNom() {
@@ -108,7 +112,7 @@ public class Conference implements Serializable {
         return this.tracks;
     }
 
-    // fonction session
+    // methodes session
     public void addSession(Session session)
     {
         this.sessions.put(session.getNom(), session);
@@ -117,5 +121,16 @@ public class Conference implements Serializable {
     public Map<String, Session> getSessions()
     {
         return this.sessions;
+    }
+
+    // methodes communication
+    public void addCom(Communication communication)
+    {
+        communications.put(communication.getNumCom(), communication);
+    }
+
+    public Map<Integer, Communication> getCommunications()
+    {
+        return this.communications;
     }
 }
