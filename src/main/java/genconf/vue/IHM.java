@@ -448,6 +448,7 @@ public class IHM  {
     * Partie d'ajout des méthodes experimentales de IHM
     *
      */
+    // fonction qui affiche les differents utilisateurs existant
     public void afficheUtilisateurs()
     {
         Map<String, Utilisateur> utilisateurs = controleur.getMapUtilisateurs();
@@ -460,7 +461,8 @@ public class IHM  {
         }
         System.out.println("** Fin de l'affichage **\n");
     }
-    
+
+    // fonction qui affiche les conferences ainsi que tout les parametres associés aux differentes conf
     public void afficherConferences(){
         
         Map<String, Conference> conferences =controleur.getMapConferences();
@@ -523,7 +525,7 @@ public class IHM  {
 
     }
 
-    // fonction utiles
+    // methode renvoyant une conference existante
     public Conference choixConf()
     {
         Scanner input = new Scanner(System.in);
@@ -551,6 +553,7 @@ public class IHM  {
         return null;
     }
 
+    // methode renvoyant une session existante dans la conference passée en parametre
     public Session choixSession(Conference conference)
     {
         // choix de la session
@@ -583,7 +586,7 @@ public class IHM  {
     }
 
     
-    // fonction typeCom
+    // methode permettant de saisir un type de communication
     public void saisirTypeCom()
     {
         Scanner input = new Scanner(System.in);
@@ -604,7 +607,7 @@ public class IHM  {
 
     }
 
-    // fonction cree track
+    // methode permettant de saisir un track
     public void saisirTrack()
     {
         Scanner input = new Scanner(System.in);
@@ -627,7 +630,7 @@ public class IHM  {
         }
     }
 
-    // fonction session
+    // methode permettant de saisir une session
     public void saisirSession()
     {
         Scanner input = new Scanner(System.in);
@@ -675,6 +678,7 @@ public class IHM  {
         controleur.creerSession(choixNomSession, jour, heureDebut, heureFin, salle, conference);
     }
 
+    // methode utilitaire pour saisirSession(), renvoyant une heure (un int) correcte
     public int saisirHeure()
     {
         Scanner input = new Scanner(System.in);
@@ -688,7 +692,7 @@ public class IHM  {
         return heure;
     }
 
-    // lier session a track
+    // methode permettant de lier un track a une session
     public void lierSessionATrack()
     {
         // choix de la conference
@@ -735,7 +739,7 @@ public class IHM  {
         }
     }
 
-    // communication
+    // methode permettant de saisir une communication
     public void saisirCommunication()
     {
         // choix de la conference
@@ -790,6 +794,7 @@ public class IHM  {
         }
     }
 
+    // methode permettant de lier une communication a une session
     public void lierComASession()
     {
         // choix de la conference

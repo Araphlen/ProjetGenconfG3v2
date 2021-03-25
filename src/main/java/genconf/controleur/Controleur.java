@@ -124,7 +124,7 @@ public class Controleur {
         return this.genconf.getConferences();
     }
     
-    // fonction typeCom
+    // methode qui creer un type de communication
     public void creerTypeCom(String nom, Conference conference)
     {
         String choix;
@@ -149,6 +149,7 @@ public class Controleur {
         conference.addTypeCom(nom, typeCommunication);
     }
 
+    // methode qui vérifie et renvoie un choix correcte pour la methode creerTypeCom
     public String verifChoixInput(String choix)
     {
         Scanner input = new Scanner(System.in);
@@ -161,7 +162,7 @@ public class Controleur {
     }
 
 
-    // fonction track
+    // methode qui creer un track
     public void creerTrack(String libelle, String couleur, Conference conference)
     {
         Track track = new Track(libelle, couleur);
@@ -176,7 +177,7 @@ public class Controleur {
         }
     }
 
-    // fonction session
+    // methode qui créer la session
     public void creerSession(String nomSession, LocalDate jour, int heureDebut, int heureFin, String salle, Conference conference)
     {
         Session session = new Session(nomSession, salle, jour, heureDebut, heureFin);
@@ -184,14 +185,14 @@ public class Controleur {
         System.out.println("La session a été créée");
     }
 
-    // lier session a track
+    // methode permettant de lier une session a un track
     public void lierSessionATrack(Session session, Track track)
     {
         System.out.println("Le track a bien été lier à la session");
         session.addTrack(track);
     }
 
-    // fonction communication
+    // methode qui creer la communication
     public void creerCommunication(Integer numCom, String titre, String auteurs, Conference conference)
     {
         Communication communication = new Communication(numCom, titre, auteurs);
@@ -199,7 +200,7 @@ public class Controleur {
         System.out.println("La communication a été créée");
     }
 
-    // lier com a session
+    // methode qui permet de lier une communication a une session
     public void lierComASession(Session session, Communication communication)
     {
         System.out.println("La communication a bien été lier a la session");
