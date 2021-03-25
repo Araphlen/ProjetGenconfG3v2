@@ -181,11 +181,13 @@ public class Controleur {
     {
         Session session = new Session(nomSession, salle, jour, heureDebut, heureFin);
         conference.addSession(session);
+        System.out.println("La session a été créée");
     }
 
     // lier session a track
     public void lierSessionATrack(Session session, Track track)
     {
+        System.out.println("Le track a bien été lier à la session");
         session.addTrack(track);
     }
 
@@ -194,11 +196,13 @@ public class Controleur {
     {
         Communication communication = new Communication(numCom, titre, auteurs);
         conference.addCom(communication);
+        System.out.println("La communication a été créée");
     }
 
     // lier com a session
     public void lierComASession(Session session, Communication communication)
     {
+        System.out.println("La communication a bien été lier a la session");
         session.addCom(communication);
     }
 }
